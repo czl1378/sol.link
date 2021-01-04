@@ -1,0 +1,42 @@
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+ 
+}
+
+.ant-form-item-label label {
+  color: #9c9c9c;
+}
+
+.chart-tooltip {
+  position: absolute;
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #e8e8e8;
+  min-width: 160px;
+}
+.chart-tooltip:empty {
+  height: 0;
+  width: 0;
+  padding: 0;
+  border: none;
+}
+
+.chart-tooltip .title {
+  font-size: 15px;
+  font-weight: 500;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e8e8e8;
+  color: #9c9c9c;
+}
+
+.chart-tooltip .name,
+.chart-tooltip .submission {
+  font-size: 16px;
+  color: #2c2c2c;
+  margin-top: 10px;
+  font-weight: 500;
+}
