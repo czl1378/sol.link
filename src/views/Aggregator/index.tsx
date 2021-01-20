@@ -5,7 +5,6 @@ import { Row, Col, Statistic, Tooltip, Button, message, Input, Divider } from 'a
 import { useParams, useLocation } from "react-router-dom";
 import { LoadingOutlined, QuestionCircleOutlined, PlusOutlined, UserAddOutlined } from "@ant-design/icons";
 
-import getSubmissionValue from "../../util/getSubmissionValue";
 import { AggregationChart } from "../../components";
 
 import decodeAggregatorInfo from "../../util/decodeAggregatorInfo";
@@ -40,21 +39,25 @@ function Aggregator() {
     if (!pubkey || !connection) return;
 
     setIsLoading(true);
-
+    let submissions = null;
     connection.getAccountInfo(new PublicKey(pubkey))
       .then(res => {
         const aggregatorInfo = decodeAggregatorInfo(res);
         setDetail(aggregatorInfo);
-        const promises = aggregatorInfo.oracles.map(o => connection.getAccountInfo(new PublicKey(o)));
+        submissions = aggregatorInfo.submissions;
+        const promises = aggregatorInfo.submissions.map(s => connection.getAccountInfo(s.oracle));
         return Promise.all(promises);
       })
       .then(list => {
-        const tmpArr = list.map(o => decodeOracleInfo(o));
+        const tmpArr = list.map((o, idx) => ({
+          ...decodeOracleInfo(o),
+          submission: submissions[idx].value / 100
+        }));
         setOracles(tmpArr);
       })
       .finally(() => setIsLoading(false));
    
-  }, [pubkey, connection]);
+  }, [pubkey, connection, detail]);
 
   useEffect(() => {
     if (!cluster) {
@@ -83,14 +86,14 @@ function Aggregator() {
                   <Tooltip title="Latest and trusted value">
                     Latest and trusted value <QuestionCircleOutlined />
                   </Tooltip>
-                } value={getSubmissionValue(oracles)} prefix="$" />
+                } value={detail.submissionValue} prefix="$" />
               </div>
               <div className={styles.statistic}>
                 <Statistic title={
                   <Tooltip title="Oracles">
                     Oracles <QuestionCircleOutlined />
                   </Tooltip>
-                } value={detail.oracles.length} />
+                } value={detail.submissions.length} />
               </div>
               <div className={styles.statistic}>
                 <Statistic title={
@@ -111,7 +114,7 @@ function Aggregator() {
         </Col>
         <Col span={16}>
           <AggregationChart data={oracles} width={600} height={500} 
-            value={getSubmissionValue(oracles)} loading={isLoading} />
+            value={detail?.submissionValue} loading={isLoading} />
         </Col>
       </Row>
       

@@ -3,7 +3,6 @@ import { PublicKey } from "@solana/web3.js"
 import BufferLayout from "buffer-layout"
 
 const OracleLayout = BufferLayout.struct([
-  BufferLayout.blob(8, "submission"),
   BufferLayout.blob(8, "nextSubmitTime"),
   BufferLayout.blob(32, "description"),
   BufferLayout.u8("isInitialized"),
@@ -22,7 +21,6 @@ export default function (accountInfo) {
 
   const oracle = OracleLayout.decode(data)
 
-  oracle.submission = buff2number(oracle.submission)/100
   oracle.nextSubmitTime = buff2number(oracle.nextSubmitTime)
   oracle.description = oracle.description.toString()
   oracle.isInitialized = oracle.isInitialized != 0

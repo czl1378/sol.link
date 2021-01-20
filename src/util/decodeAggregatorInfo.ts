@@ -6,6 +6,7 @@ const AggregatorLayout = BufferLayout.struct([
   BufferLayout.blob(4, "submitInterval"),
   BufferLayout.blob(8, "minSubmissionValue"),
   BufferLayout.blob(8, "maxSubmissionValue"),
+  BufferLayout.u8("submissionDecimals"),
   BufferLayout.blob(32, "description"),
   BufferLayout.u8("isInitialized"),
   BufferLayout.blob(32, "owner"),
@@ -79,7 +80,7 @@ export default function decodeAggregatorInfo(accountInfo: any) {
     submissionValue: getMedian(submissions)/100,
     submitInterval,
     description,
-    oracles: submissions.map(s => s.oracle.toString()),
+    submissions,
     latestUpdateTime,
   }
 }

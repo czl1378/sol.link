@@ -119,7 +119,7 @@ function Home() {
                         ${ aggregator.submissionValue }
                       </div>
                       <div className={styles.oracles}>
-                        <DeploymentUnitOutlined /> Powered by {aggregator.oracles?.length} oracles
+                        <DeploymentUnitOutlined /> Powered by {aggregator.submissions?.length} oracles
                       </div>
                       {
                         a.custom ? 
