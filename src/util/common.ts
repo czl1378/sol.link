@@ -6,7 +6,7 @@ export const endpoints = {
 
 export const aggregators = [
   {
-    "address": "2jReuMRoYi3pKTF8YLnZEvT2bXcw56SdBxvssrVzu41v",
+    "address": "3aTBom2uodyWkuVPiUkwCZ2HiFywdUx9tp7su7U2H4Nx",
     "deprecated": false
   }
 ];
